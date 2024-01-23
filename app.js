@@ -28,16 +28,38 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
     }
     else{
          // 1 буусан тул тоглогчийн ээлжийг солино. тоглогчийн ээлжиндээ цуглуулсан оноог 0 болгоно
-         roundscore=0;
-         document.getElementById('current-'+ activeplayer).textContent=0;
-         //   ээлж солих хэрэв идэвхтэй тоглтгч 0 байх юм бол 1 болгоно үгүй бол 0 болгоно
-         activeplayer==0 ? (activeplayer=1) : (activeplayer=0);
-        //  улаан цэгийг шилжүүлэх
-        document.querySelector('.player-0-panel').classList.toggle('active');
-        document.querySelector('.player-1-panel').classList.toggle('active');
-        // шоог түр алга болгоно
-        diceDom.style.display="none";
+         switchnextPlayer();
     }
    
     //
 })
+// hold товчны эвент листенер
+document.querySelector('.btn-hold').addEventListener('click',function(){
+    //  уг тоглогчийн цуглуулсан ээлжний оноог глобаль оноон нь  дээр нэмж өгнө
+    score[activeplayer]=score[activeplayer]+roundscore;
+    // дэлгэц дээр оноог нь өөрчилнө
+    document.getElementById('score-' + activeplayer).textContent=score[activeplayer];
+    // хожсон эсэхийг шалгах 
+    if(score[activeplayer]>=10){
+        // нэрнийхэн оронд ялагч гэж гаргана
+        document.getElementById('name-' + activeplayer).textContent='Winner!!!'
+        document.querySelector('.player-' + activeplayer + '-panel').classList.add('winner')
+        document.querySelector('.player-' + activeplayer + '-panel').classList.remove('active')
+    } else{    
+    // тоглогчийн ээлжийг солино
+    switchnextPlayer();
+    }
+})
+// энэ функц нь тоглох ээлжийг дараачийн тоглогч руу шилжүүлдэг
+function switchnextPlayer (){
+ // тоглогчийн ээлжийг солино
+    roundscore=0;
+    document.getElementById('current-'+ activeplayer).textContent=0;
+    //   ээлж солих хэрэв идэвхтэй тоглтгч 0 байх юм бол 1 болгоно үгүй бол 0 болгоно
+    activeplayer==0 ? (activeplayer=1) : (activeplayer=0);
+    //  улаан цэгийг шилжүүлэх
+    document.querySelector('.player-0-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+    // шоог түр алга болгоно
+    diceDom.style.display="none";
+}
