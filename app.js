@@ -1,9 +1,11 @@
 // тоглоомын бүх газар хэрэглэгдэх хувьсагч
 var activeplayer, score, roundscore;
 var diceDom=document.querySelector('.dice');
+var isnewgame;
 // тоглоомыг эхлүүлэх
 initgame();
 function initgame(){
+     isnewgame = true;
         //  тоглогчийн  ээлжийг хадгалах хувьсагч нэгдүнээр тоглогчийг 0 хоёрдугаар тоглогчийг 1 гэж тэмдэглэнэ
      activeplayer = 0;
     // тоглогчдын цуглуулсан оноог хадгалах хувьсагч
@@ -32,7 +34,8 @@ function initgame(){
 
 // шоог шидэх эвент листенер
 document.querySelector('.btn-roll').addEventListener('click', function(){
- // 1-6-ийн хооронд санамсаргүй тоо гаргаж ирнэ    
+  if(isnewgame){
+    // 1-6-ийн хооронд санамсаргүй тоо гаргаж ирнэ    
     var diceNumber=Math.floor(Math.random()*6)+1;
     // шооны зургыг вэб дээр гаргаж ирнэ
     diceDom.style.display='block';
@@ -48,26 +51,35 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
          // 1 буусан тул тоглогчийн ээлжийг солино. тоглогчийн ээлжиндээ цуглуулсан оноог 0 болгоно
          switchnextPlayer();
     }
+  }else{
+    alert('the end game!')
+  }
    
     //
 })
 
 // hold товчны эвент листенер
 document.querySelector('.btn-hold').addEventListener('click',function(){
-    //  уг тоглогчийн цуглуулсан ээлжний оноог глобаль оноон нь  дээр нэмж өгнө
-    score[activeplayer]=score[activeplayer]+roundscore;
-    // дэлгэц дээр оноог нь өөрчилнө
-    document.getElementById('score-' + activeplayer).textContent=score[activeplayer];
-    // хожсон эсэхийг шалгах 
-    if(score[activeplayer]>=10){
-        // нэрнийхэн оронд ялагч гэж гаргана
-        document.getElementById('name-' + activeplayer).textContent='Winner!!!'
-        document.querySelector('.player-' + activeplayer + '-panel').classList.add('winner')
-        document.querySelector('.player-' + activeplayer + '-panel').classList.remove('active')
-    } else{    
-    // тоглогчийн ээлжийг солино
-    switchnextPlayer();
-    }
+if(isnewgame){
+     //  уг тоглогчийн цуглуулсан ээлжний оноог глобаль оноон нь  дээр нэмж өгнө
+     score[activeplayer]=score[activeplayer]+roundscore;
+     // дэлгэц дээр оноог нь өөрчилнө
+     document.getElementById('score-' + activeplayer).textContent=score[activeplayer];
+     // хожсон эсэхийг шалгах 
+     if(score[activeplayer]>=10){
+         isnewgame=false
+         // нэрнийхэн оронд ялагч гэж гаргана
+         document.getElementById('name-' + activeplayer).textContent='Winner!!!'
+         document.querySelector('.player-' + activeplayer + '-panel').classList.add('winner')
+         document.querySelector('.player-' + activeplayer + '-panel').classList.remove('active')
+     } else{    
+     // тоглогчийн ээлжийг солино
+     switchnextPlayer();
+     }
+}else{
+    alert('the end game!')
+}
+    
 })
 
 // энэ функц нь тоглох ээлжийг дараачийн тоглогч руу шилжүүлдэг
