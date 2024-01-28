@@ -66,7 +66,7 @@ if(isnewgame){
      // дэлгэц дээр оноог нь өөрчилнө
      document.getElementById('score-' + activeplayer).textContent=score[activeplayer];
      // хожсон эсэхийг шалгах 
-     if(score[activeplayer]>=10){
+     if(score[activeplayer]>=100){
          isnewgame=false
          // нэрнийхэн оронд ялагч гэж гаргана
          document.getElementById('name-' + activeplayer).textContent='Winner!!!'
